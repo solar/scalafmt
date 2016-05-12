@@ -12,7 +12,8 @@ js.Return(!(!({
   genIsScalaJSObject(obj) &&
   ((obj DOT "$classData") === depth) &&
   genIsClassNameInAncestors(
-      className, obj DOT "$classData")
+      className,
+      obj DOT "$classData")
 })))
 <<< force space on infix application arguments
 opt[(Int, Int)]("range") hidden() action {}
@@ -22,7 +23,8 @@ opt[(Int, Int)]("range") hidden () action {}
 logger.warning("foooooooooooooo" +
 "baaaaaaaaaaaaaar")
 >>>
-logger.warning("foooooooooooooo" +
+logger.warning(
+    "foooooooooooooo" +
     "baaaaaaaaaaaaaar")
 <<< string concatenation 2
 logger.warning(a, "foooooooooooooo" +
@@ -42,7 +44,8 @@ logger.warning(a,
 logger.warning("foooooooooooooo" &&
            "baaaaaaaaaaaaaar")
 >>>
-logger.warning("foooooooooooooo" &&
+logger.warning(
+    "foooooooooooooo" &&
     "baaaaaaaaaaaaaar")
 <<< too many pluses + (state explosion)
 a + b + c + d + e + f + g + h + i + j + j + j + j + j + j + j + j + j + j + j + j

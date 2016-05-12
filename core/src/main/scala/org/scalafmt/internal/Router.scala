@@ -430,7 +430,10 @@ class Router(formatOps: FormatOps) {
           else baseSingleLinePolicy.andThen(unindent)
         }
 
-        val oneArgOneLine = OneArgOneLineSplit(open)
+        def oneArgOneLine(penalty: Int) =
+          Policy(OneArgOneLineSplit(open).f.orElse(penalizeAllNewlines(
+                         close, penalty, penaliseComments = false).f),
+                 close.end)
 
         val modification =
           if (right.isInstanceOf[Comment]) newlines2Modification(between)
@@ -450,11 +453,10 @@ class Router(formatOps: FormatOps) {
         val expirationToken: Token =
           if (isDefnSite(leftOwner) && !isBracket) defnSiteLastToken(leftOwner)
           else rhsOptimalToken(leftTok2tok(close))
-//          rhsOptimalToken(leftTok2tok(close))
 
         val tooManyArguments = args.length > 100
+        val option3Cost = if (args.length <= 1) 1 else 3
 
-//        logger.elem(formatToken, expirationToken)
         Seq(
             Split(modification,
                   0,
@@ -462,23 +464,17 @@ class Router(formatOps: FormatOps) {
                   ignoreIf = !fitsOnOneLine)
               .withOptimalToken(expirationToken)
               .withIndent(indent, close, Left),
-            Split(newlineModification,
-                  (1 + nestedPenalty + lhsPenalty) * bracketMultiplier,
-                  policy = singleLine(5),
-                  ignoreIf = !fitsOnOneLine)
-              .withOptimalToken(expirationToken)
-              .withIndent(indent, close, Left),
             // TODO(olafur) singleline per argument!
             Split(modification,
                   (2 + lhsPenalty) * bracketMultiplier,
-                  policy = oneArgOneLine,
+                  policy = oneArgOneLine(2),
                   ignoreIf = singleArgument || tooManyArguments)
               .withOptimalToken(expirationToken)
               .withIndent(StateColumn, close, Right),
-            Split(Newline,
-                  (3 + nestedPenalty + lhsPenalty) * bracketMultiplier,
-                  policy = oneArgOneLine,
-                  ignoreIf = singleArgument)
+            Split(newlineModification,
+                  (option3Cost + nestedPenalty +
+                      lhsPenalty) * bracketMultiplier,
+                  policy = oneArgOneLine(1))
               .withOptimalToken(expirationToken)
               .withIndent(indent, close, Left)
           )

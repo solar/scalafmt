@@ -224,10 +224,13 @@ class FormatOps(val tree: Tree,
       Decision(t, s.map(_.withIndent(indent, close, ExpiresOn.Left)))
   }
 
-  def penalizeAllNewlines(expire: Token, penalty: Int)(
+  def penalizeAllNewlines(
+      expire: Token, penalty: Int, penaliseComments: Boolean = true)(
       implicit line: sourcecode.Line): Policy = {
     Policy({
-      case Decision(tok, s) if tok.right.end < expire.end =>
+      case Decision(tok, s)
+          if tok.right.end < expire.end &&
+          (penaliseComments || !isInlineComment(tok.left)) =>
         Decision(tok, s.map {
           case split if split.modification.isNewline =>
             split.withPenalty(penalty)
