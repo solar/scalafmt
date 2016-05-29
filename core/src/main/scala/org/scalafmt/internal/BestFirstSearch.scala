@@ -170,7 +170,8 @@ class BestFirstSearch(
           deepestYet = curr
         }
         if (depth == 0 && curr.policy.isSafe &&
-            curr.splits.length > deepestYetSafe.splits.length) {
+            curr.splits.length > deepestYetSafe.splits.length
+        ) {
           deepestYetSafe = curr
         }
         runner.eventCallback(VisitToken(splitToken))
@@ -195,6 +196,7 @@ class BestFirstSearch(
           if (escapeInPathologicalCases &&
               visits(splitToken) > MaxVisitsPerToken) {
             // Danger zone: escape hatch for pathological cases.
+//            logger.elem(tree, deepestYetSafe, curr, splitToken)
             Q.dequeueAll
             best.clear()
             visits.clear()

@@ -92,6 +92,7 @@ trait HasTests extends FunSuiteLike with FormatAssertions {
   def file2style(filename: String): ScalafmtStyle =
     filename.split("/").reverse(1) match {
       case "unit" => ScalafmtStyle.unitTest40
+      case "default140" => ScalafmtStyle.default.copy(maxColumn = 140)
       case "default" | "standard" | "scala" => ScalafmtStyle.unitTest80
       case "scalajs" => ScalafmtStyle.scalaJs
       case "stripMargin" => ScalafmtStyle.default
