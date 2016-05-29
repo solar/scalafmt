@@ -1,0 +1,36 @@
+// Column 140                                                                                                                              |
+<<< ONLY idempotent #278
+// 1
+trait SelfEmploymentsBalancingChargesController extends BaseController with Links {
+
+      val balancingChargesJson = toJson(
+      balancingCharges.map(balancingCharge =>
+            halResource(
+                obj(),
+                Seq(HalLink("self",
+                            selfEmploymentSummaryTypeIdHref(saUtr, taxYear, seId, BalancingChargesSummaryType, balancingCharge.id.get))))))
+}
+>>>
+// 1
+trait SelfEmploymentsBalancingChargesController extends BaseController with Links {
+
+  val balancingChargesJson = toJson(
+      balancingCharges.map(balancingCharge =>
+            halResource(
+                obj(),
+                Seq(HalLink("self",
+                            selfEmploymentSummaryTypeIdHref(saUtr, taxYear, seId, BalancingChargesSummaryType, balancingCharge.id.get))))))
+}
+<<< SKIP 2
+// 2
+trait SelfEmploymentsBalancingChargesController extends BaseController with Links {
+
+  val balancingChargesJson = toJson(
+      balancingCharges.map(balancingCharge =>
+            halResource(
+                obj(),
+                Seq(HalLink("self",
+                            selfEmploymentSummaryTypeIdHref(saUtr, taxYear, seId, BalancingChargesSummaryType, balancingCharge.id.get))))))
+}
+>>>
+x
