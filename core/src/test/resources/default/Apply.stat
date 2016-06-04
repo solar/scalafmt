@@ -440,3 +440,26 @@ def singlePassFreqItems( ): DataFrame = {
 }
 >>>
 x
+<<< ONLY #310
+object A {
+  def x = {
+     CreditCard(customerId = customerId,
+               gatewayCustomerId = sCust.getId,
+               gatewayCardId = card.getId,
+               holderName = p.holderName,
+               lastFour = p.lastFour,
+               expMonth = p.expMonth,
+               expYear = p.expYear,
+               isDefault = p.isDefault,
+               address1Check = card.getAddressLine1Check.some,
+               zipCheck = card.getAddressZipCheck.some,
+               regionId = a.regionId,
+               addressName = a.name,
+               address1 = a.address1,
+               address2 = a.address2,
+               city = a.city,
+               zip = a.zip,
+               brand = card.getBrand)
+  }
+}
+>>>
